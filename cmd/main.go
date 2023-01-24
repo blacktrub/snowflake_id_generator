@@ -13,7 +13,12 @@ func main() {
 	seq := seq.Init()
 	sn := snowflake.Init(seq)
 	r.GET("id", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{"id": sn.Get()})
+		id, err := sn.Get()
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		ctx.JSON(http.StatusOK, gin.H{"id": id})
 	})
 
 	r.Run()

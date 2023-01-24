@@ -14,15 +14,19 @@ type Snowflake struct {
 	seq seq.Seq
 }
 
-func (s *Snowflake) Get() int64 {
-	n := time.Now().Unix()
-	n = n << 5
+func (s *Snowflake) Get() (int64, error) {
+	now := time.Now().Unix()
+	n := now << 5
 	n |= dc
 	n = n << 5
 	n |= node
 	n = n << 12
-	n |= int64(s.seq.Next())
-	return n
+	sq, err := s.seq.Next(now)
+	if err != nil {
+		return 0, err
+	}
+	n |= int64(sq)
+	return n, nil
 }
 
 func Init(seq seq.Seq) Snowflake {
