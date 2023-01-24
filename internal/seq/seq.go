@@ -9,7 +9,7 @@ const maxSeqInt = 4096
 
 type Seq struct {
 	n   int
-	m   *sync.Mutex
+	m   sync.Mutex
 	cur int64
 }
 
@@ -32,7 +32,6 @@ func (s *Seq) Next(t int64) (int, error) {
 	return s.n, nil
 }
 
-func Init() Seq {
-	mut := sync.Mutex{}
-	return Seq{m: &mut}
+func New() Seq {
+	return Seq{}
 }

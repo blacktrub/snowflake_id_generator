@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"snowflake_id_generator/internal/seq"
 	"snowflake_id_generator/internal/snowflake"
 
 	"github.com/gin-gonic/gin"
@@ -10,8 +9,7 @@ import (
 
 func main() {
 	r := gin.Default()
-	seq := seq.Init()
-	sn := snowflake.Init(seq)
+	sn := snowflake.New()
 	r.GET("id", func(ctx *gin.Context) {
 		id, err := sn.Get()
 		if err != nil {

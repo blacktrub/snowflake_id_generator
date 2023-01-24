@@ -11,7 +11,7 @@ const dc = 31
 const node = 31
 
 type Snowflake struct {
-	seq seq.Seq
+	seq *seq.Seq
 }
 
 func (s *Snowflake) Get() (int64, error) {
@@ -29,6 +29,7 @@ func (s *Snowflake) Get() (int64, error) {
 	return n, nil
 }
 
-func Init(seq seq.Seq) Snowflake {
-	return Snowflake{seq: seq}
+func New() Snowflake {
+	seq := seq.New()
+	return Snowflake{seq: &seq}
 }
