@@ -26,8 +26,12 @@ func (s *Snowflake) Get() (int64, error) {
 	return n, nil
 }
 
-func New() Snowflake {
+func New() (Snowflake, error) {
 	seq := seq.New()
-	conf := conf.New()
-	return Snowflake{seq: &seq, conf: &conf}
+	conf, err := conf.New()
+	if err != nil {
+		return Snowflake{}, err
+	}
+
+	return Snowflake{seq: &seq, conf: &conf}, nil
 }
