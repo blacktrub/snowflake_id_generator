@@ -12,7 +12,8 @@ type Snowflake struct {
 }
 
 func (s *Snowflake) Get() (int64, error) {
-	now := time.Now().Unix()
+	// TODO: we need to check the size here
+	now := time.Now().UnixMilli()
 	n := now << 5
 	n |= int64(s.conf.Dc)
 	n = n << 5

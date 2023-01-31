@@ -17,7 +17,6 @@ func (s *Seq) Next(t int64) (int, error) {
 	s.m.Lock()
 	defer s.m.Unlock()
 
-	// TODO: we need UNIX milliseconds here
 	if t != s.cur {
 		s.n = 0
 		s.cur = t
